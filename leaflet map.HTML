@@ -1,0 +1,40 @@
+---
+title: "My map"
+author: "Sergei Keidzh"
+date: "25 July 2018"
+output: html_document
+---
+##Create a web page using R Markdown that features a map created with Leaflet.
+
+##Host your webpage on either GitHub Pages, RPubs, or NeoCities.
+
+##Your webpage must contain the date that you created the document, and it must contain a map created with Leaflet. We would love to see you show off your creativity! 
+
+```{r setup, echo=TRUE}
+setwd("D:/Game")
+library(leaflet)
+library(maptools)
+library(htmltools)
+#This is the map of Russian cities Chelyabinsk, Kasli, Vishnevogorsk, Miass and Kyshtym in that order. Tryied to use latin name , but unfortunattely leaflet knows only russian names, so it probably won't show to you. 
+md_cities<-data.frame(name=c("??????????????????", "??????????", "????????????????????????", "??????????", "????????????"),
+pop=c(1198858, 16969, 4219, 151856, 38942),
+lat=c(55.164440, 55.532724, 55.599725, 55.0506795, 55.425999),
+lng=c(61.436844, 60.454176, 60.395093, 60.1034961, 60.485999))
+
+md_cities %>%
+leaflet() %>%
+addTiles() %>% 
+addCircles(weight=10, radius=sqrt(md_cities$pop*30))
+
+df<-data.frame(lat=runif(20,min=55.05,max=55.59),
+               lng=runif(20,min=60.09, max=61.99),
+               col=sample(c("yellow","green","blue","red","purple"),20,replace=TRUE),
+               stringsAsFactors = FALSE)
+
+df %>%
+  leaflet() %>%
+addTiles() %>%
+  addCircleMarkers(color=df$col) %>%
+  addLegend(labels=LETTERS[1:5],colors=c("yellow","green","blue","red", "purple"))
+```
+
